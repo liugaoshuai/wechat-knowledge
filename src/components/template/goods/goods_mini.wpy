@@ -1,0 +1,85 @@
+<template>
+  <view class="column goods-mini-box">
+    <image class="goods-image" lazy-load src="{{goods.imageUrl}}" @tap="routeToGoods({{goods.id}})"></image>
+    <view class="main-box row">
+      <!--左边栏-->
+      <view class="left-bar column-between">
+        <text class="sm muted line1">199人已购</text>
+        <text class="nm warm line1">¥99</text>
+      </view>
+      <!--右边栏-->
+      <view class="right-bar column">
+        <button type="primary" plain hover-class="none" class="btn-fetch">购买</button>
+      </view>
+    </view>
+    <text class="nm white line1 pos">恋爱读心术</text>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import router from '../../../mixins/router';
+  export default class GoodMiniItem extends wepy.component {
+    props = {
+      goods: {}
+    };
+    methods = {
+    };
+    mixins = [router]
+  }
+</script>
+
+<style lang="less">
+  @import "../../../styles/variable";
+  .goods-mini-box{
+    position: relative;
+    @width: 260rpx;
+    @height: 180rpx;
+    padding-right: 30rpx;
+    display: inline-flex;
+    background-color: white;
+    width: @width;
+    height: 350rpx;
+    border-bottom: @border;
+    .goods-image{
+      width: @width;
+      height: @height;
+      border-radius: 10rpx;
+    }
+
+    .main-box{
+      height: 80rpx;
+      padding: 30rpx 0;
+      .left-bar{
+        width: 130rpx;
+        height: 80rpx;
+      }
+      .right-bar{
+        width: 130rpx;
+        height: 80rpx;
+        flex: 1;
+        align-items: flex-end;
+        .btn-fetch{
+          display: block;
+          width:100rpx;
+          height:44rpx; 
+          line-height: 44rpx;
+          text-align: center;
+          background:linear-gradient(90deg,rgba(255,62,68,1),rgba(255,99,77,1));
+          box-shadow: 0px 10rpx 14rpx 0px rgba(255,217,217,1);
+          border-radius: 45rpx; 
+          font-size: @text-sm;
+        }
+      }
+    }
+    .pos{
+      position: absolute;
+      top: 140rpx;
+      left: 10rpx;
+      width: 240rpx;
+      opacity: 0.8;
+      filter: alpha(opacity=80);
+    }
+  }
+</style>

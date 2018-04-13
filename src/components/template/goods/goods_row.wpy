@@ -1,0 +1,73 @@
+<template>
+  <view class="row goods-row-box" @tap="routeToGoods({{goods.id}})">
+    <image class="goods-image"  lazy-load src="{{goods.imageUrl}}" ></image>
+    <view class="main-box row">
+      <!--左边栏-->
+      <view class="left-bar column-between">
+        <text class="lg strong line1">恋爱读心术，读懂他的心</text>
+        <text class="nm muted line1">怎样抓住他的心</text>
+        <text class="xs muted line1">已更新10期</text>
+      </view>
+      <!--右边栏-->
+      <view class="right-bar column-between">
+        <text class="nm warm line1">¥99</text>
+        <button type="primary" plain hover-class="none" class="btn-fetch">试听</button>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import router from '../../../mixins/router';
+
+  export default class GoodRowItem extends wepy.component {
+    props = {
+      goods: {}
+    };
+    methods = {};
+    mixins = [router]
+  }
+</script>
+
+<style lang="less">
+  @import "../../../styles/variable";
+  .goods-row-box{
+    background-color: white;
+    border-bottom: @border;
+    align-items: center;
+    padding: 20rpx 0;
+    .goods-image {
+      height: 190rpx;
+      width: 150rpx;
+      border-radius: 10rpx;
+    }
+    .main-box{
+      height: 162rpx;
+      margin-left: 16rpx;
+      flex: 1;
+      .left-bar{
+        width: 360rpx;
+        height: 160rpx;
+      }
+      .right-bar{
+        width: 164rpx;
+        height: 160rpx;
+        align-items: flex-end;
+        text, .btn-fetch{
+          display: block;
+          width:120rpx;
+          height:52rpx; 
+          line-height: 52rpx;
+          text-align: center;
+        }
+       .btn-fetch{
+          background:linear-gradient(90deg,rgba(255,62,68,1),rgba(255,99,77,1));
+          box-shadow: 0px 10rpx 14rpx 0px rgba(255,217,217,1);
+          border-radius: 45rpx; 
+          font-size: @text-nm;
+        }
+      }
+    }
+  }
+</style>

@@ -1,0 +1,42 @@
+<template>
+  <view class="column-center loading-wrap">
+  	已购
+  </view>
+  <!--插件-->
+  <AudioWidget :isWrap.sync="isWrap" />
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import AudioWidget from '../../components/common/audio_widget';
+  export default class Cart extends wepy.page {
+    props = {}
+    data = {
+      isWrap: true
+    }
+    async onLoad () {};
+    onShow() {
+      this.reLoad();
+    };
+    reLoad() {
+      this.$invoke('AudioWidget', 'audioInit');
+    };
+    /**
+     * 分页参数
+     */
+    params() {
+      return {};
+    }
+    computed = {}
+    mixins = []
+    events = {}
+    components = {
+      AudioWidget: AudioWidget
+    }
+  }
+</script>
+
+<style lang="less">
+  @import "../../styles/variable";
+</style>

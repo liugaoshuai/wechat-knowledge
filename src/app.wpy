@@ -1,0 +1,96 @@
+<style lang="less" src="./styles/icons.less"></style>
+<style lang="less" src="./styles/base.less"></style>
+<script>
+  import wepy from 'wepy';
+  import 'wepy-async-function';
+  export default class extends wepy.app {
+    globalData = {
+      auth: {},
+      appList: [],
+      baseUrl: 'http://172.31.50.102:2333'
+    }
+    // http://172.31.50.102:2333
+    // 'https://www.easy-mock.com/mock/5ab7c9627a7afd3099d16b4c/customer'
+    constructor () {
+      super();
+      // 注册中间件
+      this.use('requestfix');
+      this.use('promisify');
+      this.intercept('request', {
+        config (p) {
+          p.header = this.createAuthHeader();
+          return p;
+        }
+      });
+    }
+    /**
+     * 构造权限头部
+     */
+    createAuthHeader () {
+      const loginCode = wepy.$instance.globalData.auth.login_code;
+      const header = {};
+      if (loginCode) {
+        header['login_code'] = loginCode;
+      }
+      return header;
+    }
+    onLaunch() {
+      // 同步开放平台EXT数据
+      const ext = wepy.getExtConfigSync();
+      Object.assign(wepy.$instance.globalData, ext);
+      // 同步权限数据
+      this.syncStoreConfig('login_code');
+      this.syncStoreConfig('third_session');
+      this.syncStoreConfig('user');
+    }
+    syncStoreConfig(key) {
+      try {
+        const value = wepy.getStorageSync(key);
+        if (value !== '') {
+          console.info(`[auth]${key} sync success `);
+          wepy.$instance.globalData.auth[key] = value;
+        }
+      } catch (e) {
+        console.warn(`[auth]${key} sync fail `);
+      }
+    }
+    config = {
+      pages: [
+        'pages/home/tmp_home',
+        'pages/cart/cart',
+        'pages/user/user'
+      ],
+      window: {
+        backgroundTextStyle: 'dark',
+        backgroundColor: '#FFFFFF',
+        navigationBarBackgroundColor: '#FFFFFF',
+        navigationBarTextStyle: 'black'
+      },
+      tabBar: {
+        color: '#999999',
+        selectedColor: '#FF3E44',
+        backgroundColor: '#FFFFFF',
+        list: [
+          {
+            iconPath: 'images/tab/home.png',
+            selectedIconPath: 'images/tab/home_active.png',
+            pagePath: 'pages/home/tmp_home',
+            text: '首页'
+          },
+          {
+            iconPath: 'images/tab/cart.png',
+            selectedIconPath: 'images/tab/cart_active.png',
+            pagePath: 'pages/cart/cart',
+            text: '已购'
+          },
+          {
+            iconPath: 'images/tab/user.png',
+            selectedIconPath: 'images/tab/user_active.png',
+            pagePath: 'pages/user/user',
+            text: '我的'
+          }
+        ]
+      }
+    };
+  }
+</script>

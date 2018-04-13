@@ -1,0 +1,29 @@
+<template>
+  <view class="column-center loading-wrap">
+    我的
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class User extends wepy.page {
+    props = {}
+    data = {}
+    async onLoad () {}
+    /**
+     * 分页参数
+     */
+    params() {
+      return {};
+    }
+    computed = {}
+    mixins = []
+    events = {}
+    components = {}
+  }
+</script>
+
+<style lang="less">
+  @import "../../styles/variable";
+</style>

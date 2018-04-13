@@ -1,0 +1,83 @@
+<template>
+  <!--BIG SWIPER-->
+  <view class="swiper-bar swiper-big" wx:if="{{param.layout == 'BIG'}}">
+    <swiper indicator-dots="{{param.data.length > 1}}" 
+            indicator-active-color="#EEE" 
+            interval="3000" 
+            autoplay circular
+            class="swiper" >
+      <swiper-item class="swiper-item" wx:for="{{param.data}}" wx:key="index" wx:index="index" >
+        <image mode="" src="{{item.url}}" @tap="routeByAction({{item}})"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!--MIN SWIPER-->
+  <view class="swiper-bar swiper-min" wx:if="{{param.layout == 'MIN'}}">
+    <swiper indicator-dots="{{param.data.length > 1}}" 
+            indicator-active-color="#EEE" 
+            interval="3000" 
+            autoplay circular
+            class="swiper" >
+      <swiper-item class="swiper-item" wx:for="{{param.data}}" wx:key="index" wx:index="index" >
+        <image mode="" src="{{item.url}}" @tap="routeByAction({{item}})"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import router from '../../mixins/router';
+  export default class SwiperBar extends wepy.component {
+    props = {
+      param: {}
+    };
+    mixins = [router]
+  }
+</script>
+
+<style lang="less">
+  @import "../../styles/variable";
+
+  .swiper-bar{
+    width: 100%;
+  }
+  .swiper{
+    width: 100%;
+    height: 100%;
+  }
+  //******BIG样式******/
+  .swiper-big{
+    height: 280rpx;
+    padding: 35rpx 0 0 0;
+    .swiper-item{
+      width: 690rpx;
+      height: 100%;
+      left: 30rpx;
+      image{
+        height: 270rpx;
+        width: 690rpx;
+        border-radius: 10rpx;
+        box-shadow: 0px 10rpx 10rpx 0px rgba(235,235,235, 0.6);
+      }
+    }
+  }
+  
+   //******MIN样式******/
+  .swiper-min{
+    height: 188rpx;
+    padding: 20rpx 0;
+    .swiper-item{
+      width: 660rpx;
+      height: 100%;
+      left: 45rpx;
+      image{
+        height: 177rpx;
+        width: 660rpx;
+        border-radius: 10rpx;
+        box-shadow: 0px 10rpx 10rpx 0px rgba(235,235,235, 0.6);
+      }
+    }
+  }
+</style>

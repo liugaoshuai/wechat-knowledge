@@ -1,0 +1,267 @@
+<template>
+  <Loading :init.sync="init"/>
+  <view class="template-box" wx:if="{{init}}" style="height:{{!isWrap ? '100%' : 'auto'}}">
+    <repeat for="{{components}}" key="index" index="index" item="item">
+      <!--顶部标题-->
+      <block wx:if="{{item.type == 'Title'}}">
+        <TitleBar :param.sync="item" />
+      </block>
+
+      <!--轮播图-->
+      <block wx:if="{{item.type == 'SWIPER'}}">
+        <SwiperBar :param.sync="item" />
+      </block>
+
+      <!--商品组-->
+      <block wx:if="{{item.type == 'GOODS_BOX'}}">
+        <GoodsBox :param.sync="item" />
+      </block>
+    </repeat>
+  </view>
+  <!--插件-->
+  <AudioWidget :isWrap.sync="isWrap" />
+</template>
+
+<script>
+  import auth from '../../api/auth';
+  import config from '../../api/config';
+  import wepy from 'wepy';
+  import base from '../../mixins/base';
+  import Loading from '../../components/common/loading';
+  import SwiperBar from '../../components/template/swiper_bar';
+  import TitleBar from '../../components/template/title_bar';
+  import GoodsBox from '../../components/template/goods_box';
+  import AudioWidget from '../../components/common/audio_widget';
+  export default class HomeTemplate extends wepy.page {
+    data = {
+      init: true,
+      isWrap: true,
+      components: [
+        {
+          type: 'SWIPER',
+          layout: 'BIG',
+          data: [
+            {
+              url: '//yun.duiba.com.cn/maila/images/ccvx78cmen.jpg',
+            },
+            {
+              url: '//yun.duiba.com.cn/maila/images/ccvx78cmen.jpg',
+            },
+            {
+              url: '//yun.duiba.com.cn/maila/images/ccvx78cmen.jpg'
+            }
+          ]
+        },
+        {
+          type: 'Title',
+          title: '限时免费',
+          url:''
+        },
+        {
+          type: 'GOODS_BOX',
+          layout: 'AD',
+          data: [
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            }
+          ]
+        },
+        {
+          type: 'Title',
+          title: '精品课',
+          url:''
+        },
+        {
+          type: 'GOODS_BOX',
+          layout: 'ROW',
+          data: [
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            }
+          ]
+        },
+        {
+          type: 'Title',
+          title: '限时免费',
+          url:''
+        },
+        {
+          type: 'GOODS_BOX',
+          layout: 'MINI',
+          data: [
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            }
+          ]
+        },
+        {
+          type: 'Title',
+          title: '读书会',
+          url:''
+        },
+        {
+          type: 'SWIPER',
+          layout: 'MIN',
+          data: [
+            {
+              url: '//yun.duiba.com.cn/maila/images/ccvx78cmen.jpg',
+            },
+            {
+              url: '//yun.duiba.com.cn/maila/images/ccvx78cmen.jpg',
+            },
+            {
+              url: '//yun.duiba.com.cn/maila/images/ccvx78cmen.jpg'
+            }
+          ]
+        },
+        {
+          type: 'GOODS_BOX',
+          layout: 'GRID',
+          data: [
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            },
+            {
+              name: '韩都衣舍',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+            }
+          ]
+        }
+      ]
+    };
+    async onLoad ({pageId, sence}) {
+      // 登录检查
+      await auth.login();
+      const page = await config.layout(2);
+      this.renderTemplatePage(page);
+      console.info(`[template] render template page success`);
+      this.loaded();
+      // 渲染导航栏
+      this.renderNavigationBar();
+    };
+    onShow() {
+      this.reLoad();
+    };
+    reLoad() {
+      this.$invoke('AudioWidget', 'audioInit');
+    };
+    /**
+     * 渲染页面
+     */
+    renderTemplatePage(page) {
+      this.components = page.components;
+      this.plugins = page.plugins;
+      this.triggers = page.triggers;
+      this.param = page.param;
+    }
+    /**
+     * 渲染标题栏
+     */
+    renderNavigationBar() {
+      if (this.param.navigation == null) {
+        return;
+      }
+      const {titleText, backgroundColor, textStyle} = this.param.navigation;
+      if (titleText) {
+        wepy.setNavigationBarTitle({
+          title: titleText
+        });
+      }
+      if (backgroundColor && textStyle) {
+        wepy.setNavigationBarColor({
+          backgroundColor: backgroundColor,
+          frontColor: textStyle
+        });
+      }
+    }
+    methods = {
+    };
+    components = {
+      Loading: Loading,
+      SwiperBar: SwiperBar,
+      TitleBar: TitleBar,
+      GoodsBox: GoodsBox,
+      AudioWidget: AudioWidget
+    };
+    computed = {
+    };
+    mixins = [base];
+    config = {
+      navigationBarTitleText: '首页'
+    };
+  }
+</script>
+
+<style lang="less">
+  @import "../../styles/variable";
+  .template-box{
+    width: 100%;
+    overflow-x: hidden;
+    .h-gap {
+      width: 100%;
+      height: 1px;
+      background-color: @color-border;
+    }
+  }
+  .template-widget{
+    width: 100%;
+    height: 100%;
+  }
+
+</style>

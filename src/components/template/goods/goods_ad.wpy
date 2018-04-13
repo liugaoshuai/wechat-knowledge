@@ -1,0 +1,73 @@
+<template>
+  <view class="row goods-ad-box">
+    <view class="main-box row">
+      <!--左边栏-->
+      <view class="left-bar row-between">
+        <view class="icon-fetch column-center">
+          <i class="iconfont iconfont-play"></i>
+        </view>
+        <text class="nm strong line1 title">恋爱读心术，读懂他的心，读懂他的心当成</text>
+      </view>
+      <!--右边栏-->
+      <view class="right-bar">
+        <text class="xs week line1">04:00</text>
+      </view>
+    </view>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import router from '../../../mixins/router';
+  export default class AdItem extends wepy.component {
+    props = {
+      goods: {}
+    };
+    methods = {
+    };
+    mixins = [router]
+  }
+</script>
+
+<style lang="less">
+  @import "../../../styles/variable";
+  .goods-ad-box{
+    @size: 40rpx;
+    align-items: center;
+    padding: 10rpx 0;
+    .main-box{
+      height: @size;
+      flex: 1;
+      .left-bar{
+        width: 560rpx;
+        height: @size;
+        .icon-fetch{
+          width: @size;
+          height: @size;
+          background:rgba(255,62,68, 1);
+          border-radius: 50%;
+          .iconfont{
+            color: white;
+            font-size: @text-xxs;
+          };
+        }
+        .title{
+          width: 500rpx;
+        }
+      }
+      .right-bar{
+        width: 130rpx;
+        height: @size;
+        align-items: flex-end;
+        text{
+          display: block;
+          width: 100%;
+          height:@size; 
+          line-height: @size;
+          text-align: right;
+        }
+      }
+    }
+  }
+</style>
