@@ -1,12 +1,12 @@
 <template>
-  <view class="column goods-grid-box">
+  <view class="column goods-grid-two-box">
     <view class="icon-fetch column-center">
       <i class="iconfont iconfont-play"></i>
     </view>
     <!--图片-->
-    <image class="goods-image" lazy-load src="{{goods.imageUrl}}" @tap="routeToGoods({{goods.id}})"></image>
+    <image class="goods-image" lazy-load src="{{goods.itemPicture}}" @tap="routeToGoods({{goods.id}})"></image>
     <view class="main-box column-around" @tap="routeToGoods({{goods.id}})">
-      <text class="sm strong line2">{{goods.name}}</text>
+      <text class="sm strong line2">{{goods.title}}</text>
       <text class="nm warm line1">¥100</text>
     </view>
   </view>
@@ -15,7 +15,7 @@
 <script>
   import wepy from 'wepy';
   import router from '../../../mixins/router';
-  export default class GoodGridItem extends wepy.component {
+  export default class GoodGridTwoItem extends wepy.component {
     props = {
       goods: {}
     };
@@ -26,8 +26,8 @@
 
 <style lang="less">
   @import "../../../styles/variable";
-  .goods-grid-box{
-    @size: 198rpx;
+  .goods-grid-two-box{
+    @size: 300rpx;
     position: relative;
     background-color: white;
     width: @size;

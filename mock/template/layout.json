@@ -1,0 +1,17 @@
+
+{
+    "success": true,
+    "data": {
+        "id": 1,
+        "authorizerId": 37,
+        "componentSections": "[{\"componentType\":\"Title\",\"componentId\":1},{\"componentType\":\"SWIPER\",\"componentId\":2},{\"componentType\":\"GOODS_BOX\",\"componentId\":3},{\"componentType\":\"BLANK\",\"componentId\":4}]",
+        "pageTitle": "测试页面1",
+        "shareDescribe": "",
+        "sharePictureUrl": "",
+        "backgroundColor": "",
+        "homePage": 1,
+        "deleted": 0,
+        "gmtCreate": 1523529057000,
+        "gmtModified": 1523859454000
+    }
+}

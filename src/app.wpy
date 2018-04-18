@@ -5,12 +5,14 @@
   import 'wepy-async-function';
   export default class extends wepy.app {
     globalData = {
-      auth: {},
+      auth: {
+        tk: '8JdDYohmSwEXXVPgmRSRozpTYB6kuEMGixYjTnHqH7HGfmk1dtBNwMJeauw1hqQ6idSFKtqLsmVVtkyvLQFtVwBDfnPQ47yZ2VyriUDdTqugDkPa95CvvifakJ1JiMAxdjMCb3JE2QQHzGP61JKmYxYq'
+      },
       appList: [],
-      baseUrl: 'http://172.31.50.102:2333'
+      baseUrl: 'http://172.31.51.72:2333'
     }
     // http://172.31.50.102:2333
-    // 'https://www.easy-mock.com/mock/5ab7c9627a7afd3099d16b4c/customer'
+    // 'http://172.31.50.240:9106'
     constructor () {
       super();
       // 注册中间件
@@ -24,13 +26,13 @@
       });
     }
     /**
-     * 构造权限头部
+     * 构造请求头部
      */
     createAuthHeader () {
-      const loginCode = wepy.$instance.globalData.auth.login_code;
+      const tk = wepy.$instance.globalData.auth.tk;
       const header = {};
-      if (loginCode) {
-        header['login_code'] = loginCode;
+      if (tk) {
+        header['tk'] = tk;
       }
       return header;
     }
@@ -58,7 +60,11 @@
       pages: [
         'pages/home/tmp_home',
         'pages/cart/cart',
-        'pages/user/user'
+        'pages/user/user',
+        'pages/play/audio_detail',
+        'pages/play/audio_list',
+        'pages/course/course_detail',
+        'pages/column/column_detail'
       ],
       window: {
         backgroundTextStyle: 'dark',
@@ -70,6 +76,7 @@
         color: '#999999',
         selectedColor: '#FF3E44',
         backgroundColor: '#FFFFFF',
+        borderStyle: 'white',
         list: [
           {
             iconPath: 'images/tab/home.png',

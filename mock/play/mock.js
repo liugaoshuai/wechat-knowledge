@@ -7,19 +7,19 @@
 var fs = require('fs');
 var setOnline = [
   { 
-    name: 'login',
+    name: 'get_audio',
     type: 'get',
-    url: '/login'
+    url: '/play/detail'
   },
   { 
-    name: '',
-    type: 'get',
-    url: ''
+    name: 'order_submit',
+    type: 'post',
+    url: '/order/submit'
   },
   { 
-    name: '',
-    type: 'get',
-    url: ''
+    name: 'pay_submit',
+    type: 'post',
+    url: '/pay/submit'
   }
 ];
 
@@ -32,7 +32,7 @@ for (var i = 0, len = setOnline.length; i < len; i++) {
     var name = setOnline[i].name;
 
     exports[name] = function(req, res) {
-      fs.readFile('./mock/auth/' + name + '.json', function(err, data) {
+      fs.readFile('./mock/play/' + name + '.json', function(err, data) {
         if (err) throw err;
         
         res.json(JSON.parse(data));

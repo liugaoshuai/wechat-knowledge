@@ -3,7 +3,7 @@
   	已购
   </view>
   <!--插件-->
-  <AudioWidget :isWrap.sync="isWrap" />
+  <AudioWidget wx:if="{{showAudio}}" />
 
 </template>
 
@@ -11,13 +11,12 @@
   import wepy from 'wepy';
   import AudioWidget from '../../components/common/audio_widget';
   export default class Cart extends wepy.page {
-    props = {}
     data = {
-      isWrap: true
+
     }
     async onLoad () {};
     onShow() {
-      this.reLoad();
+      if (wepy.$instance.globalData.audioData) this.reLoad()
     };
     reLoad() {
       this.$invoke('AudioWidget', 'audioInit');
@@ -28,7 +27,15 @@
     params() {
       return {};
     }
-    computed = {}
+    computed = {
+      showAudio() {
+        if (wepy.$instance.globalData.audioData) {
+          return wepy.$instance.globalData.audioData.showAudio
+        } else {
+          return false
+        }
+      }
+    };
     mixins = []
     events = {}
     components = {

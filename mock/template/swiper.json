@@ -1,0 +1,32 @@
+{
+    "success": true,
+    "data": {
+        "id": 58,
+        "pageId": 1,
+        "titleName": "",
+        "componentType": "SWIPER",
+        "fillType": "1",
+        "showTitle": 1,
+        "layout": "MAX",
+        "subEntry": [
+            {
+                "gmtModified": 1523859034000,
+                "pageComponentId": 58,
+                "deleted": 0,
+                "pictureUrl": "//yun.dui88.com/maila/images/280.png",
+                "linkUrl": "链接1修改1",
+                "id": 21,
+                "gmtCreate": 1523859034000
+            },
+            {
+                "gmtModified": 1523859034000,
+                "pageComponentId": 58,
+                "deleted": 0,
+                "pictureUrl": "//yun.dui88.com/maila/images/280.png",
+                "linkUrl": "链接2修改1",
+                "id": 22,
+                "gmtCreate": 1523859034000
+            }
+        ]
+    }
+}

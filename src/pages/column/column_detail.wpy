@@ -1,5 +1,6 @@
 <template>
   <view class="column-center loading-wrap">
+    专栏
   </view>
 
 </template>

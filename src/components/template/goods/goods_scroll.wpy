@@ -1,6 +1,6 @@
 <template>
-  <view class="column goods-mini-box">
-    <image class="goods-image" lazy-load src="{{goods.imageUrl}}" @tap="routeToGoods({{goods.id}})"></image>
+  <view class="column goods-scroll-box">
+    <image  class="goods-image" lazy-load src="{{goods.itemPicture}}" @tap="routeToGoods({{goods.id}})"></image>
     <view class="main-box row">
       <!--左边栏-->
       <view class="left-bar column-between">
@@ -20,7 +20,7 @@
 <script>
   import wepy from 'wepy';
   import router from '../../../mixins/router';
-  export default class GoodMiniItem extends wepy.component {
+  export default class GoodScrollItem extends wepy.component {
     props = {
       goods: {}
     };
@@ -32,7 +32,7 @@
 
 <style lang="less">
   @import "../../../styles/variable";
-  .goods-mini-box{
+  .goods-scroll-box{
     position: relative;
     @width: 260rpx;
     @height: 180rpx;

@@ -1,26 +1,26 @@
 <template>
   <!--BIG SWIPER-->
-  <view class="swiper-bar swiper-big" wx:if="{{param.layout == 'BIG'}}">
-    <swiper indicator-dots="{{param.data.length > 1}}" 
+  <view class="swiper-bar swiper-big" wx:if="{{param.layout == 'MAX'}}">
+    <swiper indicator-dots="{{param.subEntry.length > 1}}" 
             indicator-active-color="#EEE" 
             interval="3000" 
             autoplay circular
             class="swiper" >
-      <swiper-item class="swiper-item" wx:for="{{param.data}}" wx:key="index" wx:index="index" >
-        <image mode="" src="{{item.url}}" @tap="routeByAction({{item}})"></image>
+      <swiper-item class="swiper-item" wx:for="{{param.subEntry}}" wx:key="index" wx:index="index" >
+        <image src="{{item.pictureUrl}}" @tap="routeByAction({{item}})"></image>
       </swiper-item>
     </swiper>
   </view>
 
   <!--MIN SWIPER-->
   <view class="swiper-bar swiper-min" wx:if="{{param.layout == 'MIN'}}">
-    <swiper indicator-dots="{{param.data.length > 1}}" 
+    <swiper indicator-dots="{{param.subEntry.length > 1}}" 
             indicator-active-color="#EEE" 
             interval="3000" 
             autoplay circular
             class="swiper" >
-      <swiper-item class="swiper-item" wx:for="{{param.data}}" wx:key="index" wx:index="index" >
-        <image mode="" src="{{item.url}}" @tap="routeByAction({{item}})"></image>
+      <swiper-item class="swiper-item" wx:for="{{param.subEntry}}" wx:key="index" wx:index="index" >
+        <image src="{{item.pictureUrl}}" @tap="routeByAction({{item}})"></image>
       </swiper-item>
     </swiper>
   </view>

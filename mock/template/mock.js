@@ -7,14 +7,29 @@
 var fs = require('fs');
 var setOnline = [
   { 
-    name: 'login',
+    name: 'layout',
     type: 'get',
-    url: '/login'
+    url: '/floor/page'
   },
   { 
-    name: '',
+    name: 'title',
     type: 'get',
-    url: ''
+    url: '/floor/Title/1'
+  },
+  { 
+    name: 'swiper',
+    type: 'get',
+    url: '/floor/SWIPER/2'
+  },
+  { 
+    name: 'goodsbox',
+    type: 'get',
+    url: '/floor/GOODS_BOX/3'
+  },
+  { 
+    name: 'blank',
+    type: 'get',
+    url: '/floor/BLANK/4'
   },
   { 
     name: '',
@@ -32,7 +47,7 @@ for (var i = 0, len = setOnline.length; i < len; i++) {
     var name = setOnline[i].name;
 
     exports[name] = function(req, res) {
-      fs.readFile('./mock/auth/' + name + '.json', function(err, data) {
+      fs.readFile('./mock/template/' + name + '.json', function(err, data) {
         if (err) throw err;
         
         res.json(JSON.parse(data));

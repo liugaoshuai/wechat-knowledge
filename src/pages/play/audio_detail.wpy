@@ -1,0 +1,260 @@
+<template>
+  <view class="audio-page">
+    <view class="column-around banner">
+      <image class="course-img" src="//yun.dui88.com/maila/images/280.png"/>
+      <text class="xl strong line1 row-center">{{audioData.title}}</text>
+    </view>
+    <view class="controler column-between">
+      <view class="slider-bar">
+        <slider style="margin:0" block-size="12"  backgroundColor="#EBEBEB" activeColor="#FF3E44" @change="audioSeek" min="0" max="{{audioData.duration}}" value="{{audioData.current}}" disabled="{{disabled}}"/>
+        <view class="row-between timer">
+          <text class="xs week row-center">{{currentTime}}</text>
+          <text class="xs week row-center">{{durationTime}}</text>
+        </view>
+      </view>
+      <view class="row-between control-bar">
+        <button type="primary" plain hover-class="none" class="btn-switch" @tap="audioPrev">
+          <i class="iconfont iconfont-next"></i>
+        </button>
+        <button type="primary" plain hover-class="none" class="btn-play" @tap="pauseOrplay">
+          <i class="iconfont iconfont-play"></i>
+        </button>
+        <button type="primary" plain hover-class="none" class="btn-switch" @tap="audioNext">
+          <i class="iconfont iconfont-next"></i>
+        </button>
+      </view>
+      <view class="column-between bottom">
+        <view class="buy-bar buy-bar-before row-around">
+          <text class="remind nm ">免费试听前20秒，购买后收听完整版</text>
+          <button type="primary" plain hover-class="none" class="btn-fetch row-center" @tap="routeToAudioList">
+            直接购买
+          </button>
+        </view>
+        <view class="row-around table">
+          <button type="primary" plain hover-class="none" class="column-around btn-bottom" @tap="routeToAudioList">
+            <i class="iconfont iconfont-play"></i>
+            <text>播放列表</text>
+          </button>
+          <button type="primary" plain hover-class="none" class="column-around btn-bottom" @tap="audioPrev">
+            <i class="iconfont iconfont-play"></i>
+            <text>分享</text>
+          </button>
+        </view>
+      </view>
+    </view>
+  </view> 
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import play from '../../api/play';
+  import router from '../../mixins/router';
+  export default class AudioDetail extends wepy.page {
+    props = {}
+    data = {
+      disabled: false,
+      audioData: {
+        duration: 0,
+        current: 0,
+        paused: false
+      }
+    }
+    async onLoad({id, watchable}) {
+      this.audioInit(id, watchable);
+      console.log(watchable)
+    }
+    onUnload() {
+      console.log(wepy.$instance.globalData.audioData)
+    }
+    /**
+     * 初始化播放器
+     */
+    async audioInit(id, watchable) {
+      if (watchable) this.disabled = true;
+      if (id) {
+        this.audioData = await play.getAudioData(id);
+        this.bgAudio = wepy.getBackgroundAudioManager();
+        Object.assign(this.bgAudio, this.audioData);
+      } else {
+        this.audioData = wepy.$instance.globalData.audioData;
+        this.bgAudio = wepy.getBackgroundAudioManager();
+      }
+      this.audioData.paused = false;
+      this.audioData.showAudio = true;
+      wepy.$instance.globalData.audioData = this.audioData;
+      this.$apply();
+      if (watchable) {
+        this.bgAudio.onTimeUpdate(res => {
+          if (this.bgAudio.currentTime > 9) {
+            this.audioData.current = 20;
+            this.bgAudio.stop();
+          }
+          if (this.audioData.paused === false) {
+            this.audioData.duration = Math.ceil(this.bgAudio.duration)
+            this.audioData.current = Math.ceil(this.bgAudio.currentTime)
+          }
+          this.$apply()  
+        });
+      } else {
+        this.bgAudio.onTimeUpdate(res => {
+        this.audioData.duration = Math.ceil(this.bgAudio.duration)
+        this.audioData.current = Math.ceil(this.bgAudio.currentTime)
+        this.$apply()  
+      });
+      }
+      this.bgAudio.onEnded(res => {
+        this.audioInit(id);
+        console.log('end')
+      })
+    }
+    methods = {
+      pauseOrplay() {
+        this.audioData.paused ? this.bgAudio.play() : this.bgAudio.pause();
+        this.audioData.paused = !this.audioData.paused;
+      },
+      audioSeek(e) {
+        this.bgAudio.seek(e.detail.value)
+      }
+    };
+    computed = {
+      currentTime() {
+        return play.fmtTime(this.audioData.current);
+      },
+      durationTime() {
+        return play.fmtTime(this.audioData.duration);
+      }
+    }
+    mixins = [router]
+    events = {}
+    components = {}
+  }
+</script>
+
+<style lang="less">
+  @import "../../styles/variable";
+  // 播放详情页
+  @keyframes showPage {
+    0% {
+      top: 200%;
+    }
+    100% {
+      top: 0;
+    }
+  }
+  @keyframes hidePage {
+    0% {
+      top: 0;
+    }
+    100% {
+      top: 200%;
+    }
+  }
+  .show-page {
+    animation: showPage 1s forwards;
+  }
+  .hide-page{
+    animation: hidePage 1s forwards;
+  }
+  .audio-page{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background: white;
+    width: 690rpx;
+    height: 100%;
+    padding: 0 30rpx;
+    .banner{
+      width: 100%;
+      height: 54%;
+      .course-img{
+        width: 360rpx;
+        height: 468rpx;
+        border-radius: 10rpx;
+        box-shadow: 0px 20rpx 20rpx 0px rgba(235,235,235, 0.6);
+      }
+    }
+    .controler{
+      height: 46%;
+    }
+    .slider-bar{
+      width: 690rpx;
+    }
+    .control-bar{
+      width: 414rpx;
+      .btn-switch{
+        width: 46rpx;
+        background: white;
+        border:none;
+        .iconfont{
+          font-size: 46rpx;
+          color: #FF5349;
+        }
+      }
+      .btn-play{
+        display: block;
+        width:130rpx;
+        height:130rpx; 
+        line-height: 130rpx;
+        background:linear-gradient(90deg,rgba(254,61,52,1),rgba(255,101,77,1));
+        box-shadow: 0px 18px 20px 0px rgba(254,171,171,0.5);
+        border-radius: 50%;
+        .iconfont{
+          font-size: 46rpx;
+        }
+      }
+    }
+    .bottom{
+      width: 750rpx;
+      height: 214rpx;
+      @colorbefore: #FF3E44;
+      @colorafter: #FF5F4E;
+      .buy-bar{
+        width: 750rpx;
+        height: 94rpx;
+        .btn-fetch{
+          width:150rpx;
+          height:56rpx; 
+          border-radius: 25rpx ; 
+          font-size: @text-sm;
+        }
+      }
+      .buy-bar-before{
+        background: #FFF2EB;
+        .remind{
+          color: @colorbefore;
+        }
+        .btn-fetch{
+          background:white;
+          color: @colorbefore;
+        }
+      }
+      .buy-bar-after{
+        background: @colorafter;
+        .remind{
+          color: white;
+        }
+        .btn-fetch{
+          background:#FFD900;
+          color: #FF4000;
+        }
+      }
+      .table{
+        width: 100%;
+        height: 120rpx;
+        // border-top: @border;
+        .btn-bottom{
+          width: 200rpx;
+          height: 120rpx;
+          background: white;
+          border: none;
+          .iconfont{
+            height: 50rpx;
+            color: #D8D8D8;
+          }
+        }
+      }
+    }
+  }
+  
+</style>

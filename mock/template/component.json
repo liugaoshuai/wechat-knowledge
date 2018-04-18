@@ -1,0 +1,13 @@
+{
+    "success": true,
+    "data": {
+        "id": 57,
+        "pageId": 1,
+        "titleName": "测试标题",
+        "componentType": "Title",
+        "fillType": "",
+        "showTitle": 1,
+        "layout": "BASE",
+        "linkUrl": "www.baidu.com"
+    }
+}

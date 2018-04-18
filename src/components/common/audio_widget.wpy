@@ -1,35 +1,25 @@
 <template>
-  <view class="audio-page {{(!wrap && animateStart) ? 'show-page' : ''}} {{(wrap && animateStart) ? 'hide-page' : ''}}">
-    <image class="course-img" src="/images/svg/audio.svg"/>
-    <text>课程标题课程标题课程标题课程标题课程标题</text>
-    <view class="section section_gap">
-      <view class="slider-bar">
-        <slider block-size="12" @change="audioSeek" min="0" max="{{duration}}" value="{{current}}"/>
-        {{currentTime}}  {{durationTime}}
-      </view>
-    </view>
-    <view class="control-bar">
-      <button type="primary" @tap="audioPrev">></button>
-      <button type="primary" @tap="pauseOrplay">||</button>
-      <button type="primary" @tap="switchWrap">></button>
-    </view>
-  </view> 
-  <view class="audio-controler row" @tap="switchWrap"> 
+  <view class="audio-controler row" @tap="goDetail"> 
+    <progress class="progress"
+              percent="{{100 * audioData.current / audioData.duration}}" 
+              stroke-width="1" 
+              backgroundColor="#D2D2D2"
+              activeColor="#000000"/>
     <!--左边栏-->
     <view class="left-bar row-around">
-      <view class="icon-close column-center" wx:if="{{paused}}">
+      <view class="icon-close column-center" wx:if="{{audioData.paused}}">
         <i class="iconfont iconfont-close"></i>
       </view>
-      <image class="goods-image"  lazy-load src="{{playDetail.coverImgUrl}}" ></image>
-      <view class="column" style="width:{{paused ? '336rpx' : '392rpx'}}">
-        <text class="nm white line1 ">恋爱读心术，读懂他的心读懂他的心当成</text>
-        <text class="xs white line1">{{durationTime}}</text>
+      <image class="goods-image"  lazy-load src="{{audioData.coverImgUrl}}" ></image>
+      <view class="column" style="width:{{paused ? '386rpx' : '442rpx'}}">
+        <text class="nm strong line1 ">{{audioData.title}}</text>
+        <text class="xs week line1">{{durationTime}}</text>
       </view>
     </view>
     <!--右边栏-->
     <view class="right-bar row-around">
       <view class="icon-play column-center" @tap.stop="pauseOrplay">
-        <i class="iconfont {{paused ? 'iconfont-play' : 'iconfont-stop'}}"></i>
+        <i class="iconfont {{audioData.paused ? 'iconfont-play' : 'iconfont-stop'}}"></i>
       </view>
       <view class="icon-next column-center">
         <i class="iconfont iconfont-next"></i>
@@ -42,84 +32,51 @@
   import wepy from 'wepy';
   import play from '../../api/play';
   export default class AudioWidget extends wepy.component {
-    props = {
-      isWrap: {
-        default: true,
-        twoWay: true
+    props = {}
+    data = {
+      audioData: {
+        current: 0,
+        duration: 0
       }
     }
-    data = {
-      playDetail: {
-        title: '此时此刻',
-        src: 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46',
-        coverImgUrl: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000',
-        singer: '许巍',
-        epname: '此时此刻'
-      },
-      duration: 0,
-      current: 0,
-      paused: false,
-      wrap: true,
-      animateStart: false
-    }
-    async onLoad() {
-      await this.audioInit(this.playDetail);
-    }
+    async onLoad() {}
     /**
      * 初始化播放器
      */
-    async audioInit(playDetail) {
-      let bgAudio = null;
-      if (wepy.$instance.globalData.bgAudio) {
-         bgAudio = wepy.$instance.globalData.bgAudio;
-         console.log('local')
-      } else {
-        bgAudio = wepy.getBackgroundAudioManager();
-        Object.assign(bgAudio, playDetail);
-        wepy.$instance.globalData.bgAudio = bgAudio;
-        console.log('new')
-      }
-      this.bgAudio = bgAudio;
-      bgAudio.onTimeUpdate(res => {
-        this.duration = Math.ceil(bgAudio.duration)
-        this.current = Math.ceil(bgAudio.currentTime)
+    audioInit() {
+      this.audioData = wepy.$instance.globalData.audioData;
+      this.bgAudio = wepy.getBackgroundAudioManager();
+      this.$apply();
+      this.bgAudio.onTimeUpdate(res => {
+        this.audioData.current = Math.ceil(this.bgAudio.currentTime)
         this.$apply()
       });
-      bgAudio.onEnded(res => {
-        this.audioInit(this.playDetail);
+      this.bgAudio.onEnded(res => {
+        console.log('end')
       })
-      console.log(1)
     }
     methods = {
       pauseOrplay() {
-        this.paused ? this.bgAudio.play() : this.bgAudio.pause();
-        this.paused = !this.paused;
+        this.audioData.paused ? this.bgAudio.play() : this.bgAudio.pause();
+        this.audioData.paused = !this.audioData.paused;
       },
-      audioSeek(e) {
-        this.bgAudio.seek(e.detail.value)
-      },
-      switchWrap() {
-        let that = this;
-        this.animateStart = true;
-        this.wrap = !this.wrap;
-        setTimeout(() => {
-          that.isWrap = that.wrap;
-          that.$apply();
-        }, that.wrap ? 0 : 1000)
+      goDetail() {
+       this.$root.$navigate('/pages/play/audio_detail')
       }
     };
     computed = {
       currentTime() {
-        return play.fmtTime(this.current);
+        return play.fmtTime(this.audioData.current);
       },
       durationTime() {
-        return play.fmtTime(this.duration);
+        return play.fmtTime(this.audioData.duration);
       }
     }
     mixins = []
     events = {}
     components = {}
   }
+
 </script>
 
 <style lang="less">
@@ -147,66 +104,45 @@
   .hide-page{
     animation: hidePage 1s forwards;
   }
-  .audio-page{
-    position: fixed;
-    top: 200%;
-    left: 0;
-    z-index: 10;
-    background: white;
-    height: 100%;
-    .course-img{
-      width: 750rpx;
-      height: 400rpx;
-    }
-    text{
-      display:block;
-      text-align: center;
-    }
-    .control-bar{
-      display: flex;
-      justify-content: space-around;
-    }
-  }
   
   // 播放控制栏
   .audio-controler{
     @size: 114rpx;
-    width: 700rpx;
-    height: 114rpx;
-    background: #828282;
-    border-radius: 15rpx;
+    width: 750rpx;
+    height: 110rpx;
+    background: white;
     position: fixed;
-    left: 25rpx;
-    bottom: 24rpx;
+    left: 0;
+    bottom: 0;
     height: @size;
     z-index: 20;
     .left-bar{
-      width: 500rpx;
+      width: 550rpx;
       height: @size;
       .icon-close{
         width: 46rpx;
         height: 46rpx;
         .iconfont{
-          color: white;
+          color: #808080;
           font-size: 46rpx;
         }
       }
       .goods-image {
-        width: 76rpx;
-        height: 96rpx;
-        border-radius: 4rpx;
+        width: 68rpx;
+        height: 88rpx;
+        border-radius: 8rpx;
       }
     }
     .right-bar{
-      width: 180rpx;
+      width: 200rpx;
       height: @size;
       .icon-play{
         width: 60rpx;
         height: 60rpx;
         border-radius: 50%;
-        border: @border;
+        border: 1px solid #000000;
         .iconfont{
-          color: white;
+          color: #000000;
           font-size: 26rpx;
         }
       }
@@ -214,10 +150,16 @@
         width: 46rpx;
         height: 46rpx;
         .iconfont{
-          color: white;
+          color: #000000;
           font-size: 32rpx;
         }
       }
+    }
+    .progress{
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
     }
   }
 </style>

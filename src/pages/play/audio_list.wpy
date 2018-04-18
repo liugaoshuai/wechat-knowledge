@@ -1,0 +1,154 @@
+<template>
+  <view class="audio-list">
+    <block wx:for="{{list}}" wx:key="index" wx:index="index">
+      <view class="audio-item row-between">
+        <view class="icon-{{item.paused ? 'paused' : 'play'}} row-center">
+          <i class="iconfont iconfont-{{item.paused ? 'play' : 'onplay'}}"></i>
+        </view>
+        <view class="content-bar column-between">
+          <text class="lg {{item.paused ? 'strong' : 'soft'}} line1">{{item.name}}</text>
+          <view class="info-bar row-between">
+            <view class="duration">
+              <i class="iconfont iconfont-play"></i>
+              <text class="xs weak">13:00</text>
+            </view>
+            <text class="already xs weak">已收听45%</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view> 
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import play from '../../api/play';
+  export default class AudioDetail extends wepy.page {
+    props = {}
+    data = {
+      list:[
+      {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+              paused: false
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+              paused: true
+            },
+            {
+              name: '韩都衣舍2016韩版女秋新款圆领毛衣YK6002',
+              imageUrl: '//yun.dui88.com/maila/images/280.png',
+              paused: true
+            }
+      ]
+    }
+    async onLoad() {
+    }
+    /**
+     * 初始化播放器
+     */
+    audioInit(playDetail) {
+      let bgAudio = null;
+      if (wepy.$instance.globalData.bgAudio) {
+         bgAudio = wepy.$instance.globalData.bgAudio;
+      } else {
+        bgAudio = wepy.getBackgroundAudioManager();
+        Object.assign(bgAudio, wepy.$instance.globalData.playDetail);
+        wepy.$instance.globalData.bgAudio = bgAudio;
+      }
+      this.bgAudio = bgAudio;
+      this.paused = bgAudio.paused || false;
+      this.$apply();
+      bgAudio.onTimeUpdate(res => {
+        this.duration = Math.ceil(bgAudio.duration)
+        this.current = Math.ceil(bgAudio.currentTime)
+        this.$apply()
+      });
+      bgAudio.onEnded(res => {
+        this.bgAudio.seek(0);
+        console.log('end')
+      })
+    }
+    methods = {
+      pauseOrplay() {
+        this.paused ? this.bgAudio.play() : this.bgAudio.pause();
+        this.paused = !this.paused;
+      },
+      audioSeek(e) {
+        this.bgAudio.seek(e.detail.value)
+      }
+    };
+    computed = {
+      currentTime() {
+        return play.fmtTime(this.current);
+      },
+      durationTime() {
+        return play.fmtTime(this.duration);
+      },
+      playDetail() {
+        return wepy.$instance.globalData.playDetail;
+      }
+    }
+    mixins = []
+    events = {}
+    components = {}
+  }
+</script>
+
+<style lang="less">
+  @import "../../styles/variable";
+  // 播放列表页
+  .audio-list{
+    width: 690rpx;
+    padding: 0 30rpx;
+    .audio-item{
+      width: 690rpx;
+      height: 142rpx;
+      border-bottom: @border;
+      .icon-play{
+        width: 54rpx;
+        height: 54rpx;
+        background: @color-soft;
+        border-radius: 50%;
+        box-shadow: 0rpx 4rpx 12rpx 0rpx #FFABAE;
+        .iconfont{
+          color: white;
+          font-size: @text-xxs;
+        };
+      }
+      .icon-paused{
+        width: 54rpx;
+        height: 54rpx;
+        background: #CCCCCC;
+        border-radius: 50%;
+        box-shadow: 0rpx 4rpx 12rpx 0rpx #D6D6D6;
+        .iconfont{
+          color: white;
+          font-size: @text-xxs;
+        };
+      }
+      .content-bar{
+        width: 626rpx;
+        height: 92rpx;
+        text.onplay{color: #fff}
+        .info-bar{
+          width: 100%;
+        }
+        .duration{
+          width: 200rpx;
+          .iconfont{
+            color: @color-weak;
+            font-size: @text-nm;
+          }
+        }
+        .already{
+          width: 200rpx;
+          text-align: right;
+        }
+      }
+    }
+  }
+  
+</style>

@@ -59,49 +59,34 @@ export default class auth extends base {
   /**
    * 服务端检查数据完整性
    */
-  static async checkUserInfo(rawUser) {
-    const url = `${this.baseUrl}/auth/check_userinfo`;
-    const param = {
-      rawData: rawUser.rawData,
-      signature: rawUser.signature,
-      thirdSession: this.getConfig('third_session'),
-      app_code: this.getShopCode()
-    };
-    return await this.get(url, param);
+  static async getToken(code) {
+    wepy.getUserInfo().then(
+      async res => {
+        const {rawData, signature, encryptedData, iv} = res;
+        const url = `${this.baseUrl}/login?code=${code}&appId=wx67c98c6a669003c4`;
+        return await this.get(url, {rawData, signature, encryptedData, iv});
+        await this.setConfig('tk', tk);
+      },
+      err => {}
+      );
   }
 
-  /**
-   * 服务端解密用户信息
-   */
-  static async decodeUserInfo(rawUser) {
-    const url = `${this.baseUrl}/auth/decode_userinfo`;
-    const param = {
-      encryptedData: rawUser.encryptedData,
-      iv: rawUser.iv,
-      thirdSession: this.getConfig('third_session'),
-      app_code: this.getShopCode()
-    };
-    return await this.get(url, param);
-  }
 
   /**
    * 执行登录操作
    */
   static async doLogin() {
     const {code} = await wepy.login();
-    const {third_session, login_code} = await this.session(code);
-    await this.setConfig('login_code', login_code);
-    await this.setConfig('third_session', third_session);
-    await this.login();
+    const {tk} = await this.getToken(code);
+    await this.setConfig('tk', tk);
   }
 
   /**
    * 获取登录态token
    */
-  static async session(jsCode) {
-    const shopCode = wepy.$instance.globalData.appCode;
-    const url = `${this.baseUrl}/auth/session?code=${jsCode}&app_code=${shopCode}`;
-    return await this.get(url);
+  static async session(code, params) {
+    const url = `${this.baseUrl}/login?code=${code}&appId=wx67c98c6a669003c4`;
+    return await this.get(url, params);
   }
 
 

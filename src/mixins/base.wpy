@@ -19,7 +19,6 @@
     loaded() {
       this.init = true;
       this.$apply();
-      Tips.loaded();
     }
     methods = {
       nopen() {

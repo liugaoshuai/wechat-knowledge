@@ -1,5 +1,6 @@
 <template>
   <view class="column-center loading-wrap">
+    课程
   </view>
 
 </template>

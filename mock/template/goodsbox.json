@@ -1,0 +1,101 @@
+{
+    "success": true,
+    "data": {
+        "id": 59,
+        "pageId": 1,
+        "titleName": "",
+        "componentType": "GOODS_BOX",
+        "fillType": "1",
+        "showTitle": 1,
+        "layout": "GRID2",
+        "linkUrl": "商品组链接",
+        "tabs": [
+            {
+                "gmtModified": 1523859745000,
+                "groupName": "最新修改1",
+                "pageComponentId": 59,
+                "deleted": 0,
+                "showLimitNumber": 3,
+                "goodsGroupId": 1,
+                "goods": [
+                    {
+                        "itemType": 2,
+                        "itemPicture": "//yun.dui88.com/maila/images/280.png",
+                        "price": 223,
+                        "checkPower": false,
+                        "itemId": 61,
+                        "relationSort": 61,
+                        "title": "专栏三专栏三专栏三专栏三专栏三专栏三专栏三专栏三专栏三专栏三专栏三专栏三专栏三专栏三专栏三",
+                        "courseNum":20,
+                        "buyTimes":50 ,
+                        "watchable":1,
+                        "subTitle":"子标题"
+                    },
+                    {
+                        "itemType": 2,
+                        "itemPicture": "//yun.dui88.com/maila/images/280.png",
+                        "price": 111,
+                        "checkPower": false,
+                        "itemId": 60,
+                        "relationSort": 60,
+                        "title": "专栏二专栏三专",
+                        "courseNum":20,
+                        "buyTimes":50 ,
+                        "watchable":0,
+                        "subTitle":"子标题"
+                    },
+                    {
+                        "itemType": 1,
+                        "itemPicture": "//yun.dui88.com/maila/images/280.png",
+                        "price": 1,
+                        "checkPower": true,
+                        "itemId": 28,
+                        "relationSort": 28,
+                        "title": "课程一",
+                        "buyTimes":50,
+                        "watchable":0,
+                        "subTitle":"子标题"
+                    },
+                    {
+                        "itemType": 1,
+                        "itemPicture": "//yun.dui88.com/maila/images/280.png",
+                        "price": 1,
+                        "checkPower": true,
+                        "itemId": 28,
+                        "relationSort": 28,
+                        "title": "课程一",
+                        "buyTimes":50,
+                        "watchable":0,
+                        "subTitle":"子标题"
+                    },
+                    {
+                        "itemType": 1,
+                        "itemPicture": "//yun.dui88.com/maila/images/280.png",
+                        "price": 1,
+                        "checkPower": true,
+                        "itemId": 28,
+                        "relationSort": 28,
+                        "title": "课程一",
+                        "buyTimes":50,
+                        "watchable":0,
+                        "subTitle":"子标题"
+                    },
+                    {
+                        "itemType": 1,
+                        "itemPicture": "//yun.dui88.com/maila/images/280.png",
+                        "price": 1,
+                        "checkPower": true,
+                        "itemId": 28,
+                        "relationSort": 28,
+                        "title": "课程一",
+                        "buyTimes":50,
+                        "watchable":0,
+                        "subTitle":"子标题"
+                    }
+                ],
+                "id": 19,
+                "gmtCreate": 1523859034000
+            }
+        ]
+    }
+}

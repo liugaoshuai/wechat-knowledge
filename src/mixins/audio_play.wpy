@@ -1,0 +1,60 @@
+<script>
+  import wepy from 'wepy';
+  import play from '../api/play';
+  export default class AudioPlay extends wepy.mixin {
+    props = {}
+    data = {
+      duration: 0,
+      current: 0,
+      paused: false
+    }
+    /**
+     * 初始化播放器
+     */
+    audioInit() {
+      let bgAudio = null;
+      if (wepy.$instance.globalData.bgAudio) {
+         bgAudio = wepy.$instance.globalData.bgAudio;
+      } else {
+        bgAudio = wepy.getBackgroundAudioManager();
+        Object.assign(bgAudio, wepy.$instance.globalData.playDetail);
+        wepy.$instance.globalData.bgAudio = bgAudio;
+      }
+      this.bgAudio = bgAudio;
+      this.paused = bgAudio.paused || false;
+      this.$apply();
+      bgAudio.onTimeUpdate(res => {
+        this.duration = Math.ceil(bgAudio.duration)
+        this.current = Math.ceil(bgAudio.currentTime)
+        this.$apply()
+      });
+      bgAudio.onEnded(res => {
+        this.audioInit(this.playDetail);
+        console.log('end')
+      })
+    }
+    methods = {
+      pauseOrplay() {
+        this.paused ? this.bgAudio.play() : this.bgAudio.pause();
+        this.paused = !this.paused;
+      },
+      audioSeek(e) {
+        this.bgAudio.seek(e.detail.value)
+      },
+      switchWrap() {
+       this.$root.$navigate('/pages/play/audio_detail')
+      }
+    };
+    computed = {
+      currentTime() {
+        return play.fmtTime(this.current);
+      },
+      durationTime() {
+        return play.fmtTime(this.duration);
+      },
+      playDetail() {
+        return wepy.$instance.globalData.playDetail;
+      }
+    }
+  }
+</script>

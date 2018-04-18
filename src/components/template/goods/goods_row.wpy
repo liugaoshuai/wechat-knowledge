@@ -1,17 +1,18 @@
 <template>
-  <view class="row goods-row-box" @tap="routeToGoods({{goods.id}})">
-    <image class="goods-image"  lazy-load src="{{goods.imageUrl}}" ></image>
+  <view class="row goods-row-box" @tap="routeToCourse({{goods}})">
+    <image class="goods-image"  lazy-load src="{{goods.itemPicture}}" ></image>
     <view class="main-box row">
       <!--左边栏-->
       <view class="left-bar column-between">
-        <text class="lg strong line1">恋爱读心术，读懂他的心</text>
-        <text class="nm muted line1">怎样抓住他的心</text>
-        <text class="xs muted line1">已更新10期</text>
+        <text class="lg strong line1">{{goods.title}}</text>
+        <text class="nm muted line1">{{goods.subTitle}}</text>
+        <text class="xs muted line1" wx:if="{{goods.itemType === 1}}">{{goods.buyTimes + '人已购买'}}</text>
+        <text class="xs muted line1" wx:if="{{goods.itemType === 2}}">{{'已更新' + goods.courseNum + '期 |'}} {{goods.buyTimes + '人已购买'}}</text>
       </view>
       <!--右边栏-->
       <view class="right-bar column-between">
-        <text class="nm warm line1">¥99</text>
-        <button type="primary" plain hover-class="none" class="btn-fetch">试听</button>
+        <text class="nm warm line1">{{'¥' + goods.price}}</text>
+        <button type="primary" plain hover-class="none" class="btn-fetch" @tap.stop="routeByIconAction({{goods}})">{{goods.fetchText}}</button>
       </view>
     </view>
   </view>

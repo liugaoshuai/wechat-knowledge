@@ -1,7 +1,7 @@
 <template>
-  <view class="title-bar-box">
+  <view class="title-bar" wx:if="{{param.layout == 'BASE'}}">
     <view class="main-box row-between">
-      <text class="xxxl hard">{{param.title}}</text>
+      <text class="xxxl hard">{{param.titleName}}</text>
       <button type="primary" plain class="btn-fetch">更多</button>
     </view>
   </view>
@@ -11,9 +11,12 @@
 
   export default class TitleBar extends wepy.component {
     props = {
-      param: {}
+      param: {
+        default: 222
+      }
     };
     async onLoad () {
+      console.log(this.param,22)
     }
     methods = {
     };
@@ -22,7 +25,7 @@
 
 <style lang="less">
   @import "../../styles/variable";
-  .title-bar-box{
+  .title-bar{
     .main-box{
       height: 56rpx;
       padding: 24rpx 30rpx 16rpx 30rpx;

@@ -3,7 +3,7 @@
 
     <!--横向单个布局-->
     <view class="row-box column" wx:if="{{param.layout == 'ROW'}}">
-      <repeat for="{{param.data}}" key="index" index="index" item="item">
+      <repeat for="{{param.tabs[0].goods}}" key="index" index="index" item="item">
         <!--限制数量-->
         <block>
           <RowItem :goods.sync="item" :param.sync="param"/>
@@ -12,31 +12,41 @@
     </view>
 
     <!--横向广告栏布局-->
-    <view class="ad-box column" wx:if="{{param.layout == 'AD'}}">
-      <repeat for="{{param.data}}" key="index" index="index" item="item">
+    <view class="nopic-box column" wx:if="{{param.layout == 'NOPIC'}}">
+      <repeat for="{{param.tabs[0].goods}}" key="index" index="index" item="item">
         <!--限制数量-->
         <block>
-          <AdItem :goods.sync="item" />
+          <NopicItem :goods.sync="item" />
+        </block>
+      </repeat>
+    </view>
+
+    <!--横向两个布局-->
+    <view class="grid-two-box row-around" wx:if="{{param.layout == 'GRID2'}}">
+      <repeat for="{{param.tabs[0].goods}}" key="index" index="index" item="item">
+        <!--限制数量-->
+        <block>
+          <GridTwoItem :goods.sync="item" />
         </block>
       </repeat>
     </view>
 
     <!--横向三个布局-->
-    <view class="grid-box row-around" wx:if="{{param.layout == 'GRID'}}">
-      <repeat for="{{param.data}}" key="index" index="index" item="item">
+    <view class="grid-three-box row-around" wx:if="{{param.layout == 'GRID3'}}">
+      <repeat for="{{param.tabs[0].goods}}" key="index" index="index" item="item">
         <!--限制数量-->
         <block>
-          <GridItem :goods.sync="item" />
+          <GridThreeItem :goods.sync="item" />
         </block>
       </repeat>
     </view>
 
     <!--横向N个滑动布局-->
-    <scroll-view scroll-x class="mini-box" wx:if="{{param.layout == 'MINI'}}">
-      <repeat for="{{param.data}}" key="index" index="index" item="item">
+    <scroll-view scroll-x class="scroll-box" wx:if="{{param.layout == 'SCROLL'}}">
+      <repeat for="{{param.tabs[0].goods}}" key="index" index="index" item="item">
         <!--限制数量-->
         <block>
-          <MiniItem :goods.sync="item" />
+          <ScrollItem :goods.sync="item" />
         </block>
       </repeat>
     </scroll-view>
@@ -47,9 +57,10 @@
 <script>
   import wepy from 'wepy';
   import RowItem from './goods/goods_row';
-  import AdItem from './goods/goods_ad';
-  import GridItem from './goods/goods_grid';
-  import MiniItem from './goods/goods_mini';
+  import NopicItem from './goods/goods_nopic';
+  import GridThreeItem from './goods/goods_grid_three';
+  import GridTwoItem from './goods/goods_grid_two';
+  import ScrollItem from './goods/goods_scroll';
   export default class GoodsBox extends wepy.component {
     props = {
       param: {}
@@ -57,9 +68,10 @@
     methods = {};
     components = {
       RowItem: RowItem,
-      AdItem: AdItem,
-      GridItem: GridItem,
-      MiniItem: MiniItem
+      NopicItem: NopicItem,
+      GridTwoItem: GridTwoItem,
+      GridThreeItem: GridThreeItem,
+      ScrollItem: ScrollItem
     };
   }
 </script>
@@ -72,8 +84,8 @@
     display: flex;
   }
   /*横向广告栏布局*/
-  .ad-box{
-    .goods-ad-box{ 
+  .nopic-box{
+    .goods-nopic-box{ 
       &:last-child{
         border-bottom: @border;
         padding-bottom: 30rpx;
@@ -88,15 +100,16 @@
     
   }
   /*横向三个布局*/
-  .grid-box{
+  .grid-three-box, .grid-two-box{
     flex-wrap: wrap;
+    width: 690rpx;
   }
   /*横向N个滑动布局*/
-  .mini-box{
+  .scroll-box{
     width: 690rpx;
     height: 352rpx;
     white-space: nowrap;
-    .goods-mini-box:last-child{
+    .goods-scroll-box:last-child{
       padding-right: 0;
     }
   }
